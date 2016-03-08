@@ -75,12 +75,13 @@ struct element *insert1(int obj, struct element *ptr = begin1)
 		}
 	}
 	return p; /* zwróæ adres nowego elementu */
-}void delete1(int obj, struct element *ptr = begin1) {
+}
+void delete1(int liczba) {
 	element *p;
-	p = ptr;
-	if (p != NULL) {
-		if (obj == p->number) {
+	p = begin1;
 
+	while (p != NULL) {
+		if (p->number == liczba) {
 			if (p->next != NULL)
 				p->next->previous = p->previous;
 			else
@@ -96,17 +97,19 @@ struct element *insert1(int obj, struct element *ptr = begin1)
 			if (end1 == p)
 				end1 = p->previous;
 			free(p);
+			break;
+
 		}
-	//	else if (obj > p->next->number) {
-	//		cout << "Nie ma takiej liczby" << endl;
-	//	}
+		else if (liczba > p->next->number) {
+			cout << "Nie ma takiej liczby" << endl;
+			break;
+		}
 		else {
-			delete1(obj, p->next);
+			p = p->next;
 		}
 	}
-
-
 }
+
 
 int main() {
 

@@ -44,12 +44,12 @@ struct element *insert1(int obj, struct element *ptr = begin1)
 					p->next = insert1(obj, p);
 				else
 				{
-					/* utwórz nowy element */
+					
 					p->previous = (struct element *)
 						malloc(sizeof(struct element));
-					/* zapamiêtaj adres nowego elementu */
+					
 					p = p->previous;
-					/* zainicjuj sk³adowe nowego elementu */
+					
 					p->number = obj;
 					p->next = ptr->next;
 					p->previous = ptr; ///bla nie daje wskaznika
@@ -80,6 +80,9 @@ void delete1(int liczba) {
 	element *p;
 	p = begin1;
 
+	if (p == NULL) {
+		cout << "Nie ma takiej liczby" << endl;
+	}
 	while (p != NULL) {
 		if (p->number == liczba) {
 			if (p->next != NULL)
@@ -99,10 +102,6 @@ void delete1(int liczba) {
 			free(p);
 			break;
 
-		}
-		else if (liczba > p->next->number) {
-			cout << "Nie ma takiej liczby" << endl;
-			break;
 		}
 		else {
 			p = p->next;

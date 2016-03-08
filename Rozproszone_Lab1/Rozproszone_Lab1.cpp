@@ -26,44 +26,88 @@ struct element *insert1(int obj, struct element *ptr = begin1)
 		end1 = p;
 	}
 	else {
-		p = ptr->next; /* weŸ adres analizowanego elementu */
-		if (p != NULL) /* czy koniec listy */
-		{
-			if (obj > (p->number))
-				p->next = insert1(obj, p);
-			else
-			{
-				/* utwórz nowy element */
-				p->previous = (struct element *)
-					malloc(sizeof(struct element));
-				/* zapamiêtaj adres nowego elementu */
-				p = p->previous;
-				/* zainicjuj sk³adowe nowego elementu */
-				p->number = obj;
-				p->next = ptr->next;
-				p->previous = ptr;
-
-				p->next->previous = p;
-				p->previous->next = p;
-
-				if (p->previous = NULL)
-					begin1 = p;
-
-			}
-		}
-		else /* koniec listy */
-		{ /* utwórz nowy element */
+		if (obj <= ptr->number  && ptr == begin1) { // przypadek dla 1 elementu listy
 			p = (struct element *)malloc(sizeof(struct element));
 			/* zainicjuj sk³adowe nowego elementu */
 			p->number = obj;
-			p->next = NULL;
-			p->previous = ptr;
-			p->previous->next = p; // modifikacja na nastepnym
-			end1 = p;
+			p->next = ptr;
+			p->previous = NULL;
+			p->next->previous = p;
+
+			begin1 = p;
+		}
+		else {
+			p = ptr->next; /* weŸ adres analizowanego elementu */
+			if (p != NULL) /* czy koniec listy */
+			{
+				if (obj > (p->number))
+					p->next = insert1(obj, p);
+				else
+				{
+					/* utwórz nowy element */
+					p->previous = (struct element *)
+						malloc(sizeof(struct element));
+					/* zapamiêtaj adres nowego elementu */
+					p = p->previous;
+					/* zainicjuj sk³adowe nowego elementu */
+					p->number = obj;
+					p->next = ptr->next;
+					p->previous = ptr; ///bla nie daje wskaznika
+
+					p->next->previous = p;
+					p->previous->next = p;
+
+					if (p->previous = NULL)
+						begin1 = p;
+
+				}
+			}
+			else /* koniec listy */
+			{ /* utwórz nowy element */
+				p = (struct element *)malloc(sizeof(struct element));
+				/* zainicjuj sk³adowe nowego elementu */
+				p->number = obj;
+				p->next = NULL;
+				p->previous = ptr;
+				p->previous->next = p; // modifikacja na nastepnym
+				end1 = p;
+			}
 		}
 	}
 	return p; /* zwróæ adres nowego elementu */
-}
+}void delete1(int obj, struct element *ptr = begin1) {
+	element *p;
+	p = ptr;
+	if (p != NULL) {
+		if (obj == p->number) {
+
+			if (p->next != NULL)
+				p->next->previous = p->previous;
+			else
+				p->next = NULL;
+
+			if (p->previous != NULL)
+				p->previous->next = p->next;
+			else
+				p->previous = NULL;
+
+			if (begin1 == p)
+				begin1 = p->next;
+			if (end1 == p)
+				end1 = p->previous;
+			free(p);
+		}
+	//	else if (obj > p->next->number) {
+	//		cout << "Nie ma takiej liczby" << endl;
+	//	}
+		else {
+			delete1(obj, p->next);
+		}
+	}
+
+
+}
+
 int main() {
 
 	int liczba, tryb;
@@ -82,15 +126,15 @@ int main() {
 		else if (tryb == 2) {
 			cout << "WprowadŸ liczbe: ";
 			cin >> liczba;
-			//delete1(liczba);
+			delete1(liczba);
 			cout << "Usunieto!" << endl;
 		}
 		else if (tryb == 3) {
-			element *p = begin1;			while (p->next != NULL) {				printf("%d\n", p->number);				p = p->next;			}
+			element *p = begin1;			while (p != NULL) {				printf("%d\n", p->number);				p = p->next;			}
 			cout << "Koniec!" << endl;
 		}
 		else if (tryb == 4) {
-			element *p = end1;			do {				printf("%d\n", p->number);				p = p->previous;			} while (p->previous != NULL);
+			element *p = end1;			while (p != NULL) {				printf("%d\n", p->number);				p = p->previous;			}
 			cout << "Koniec!" << endl;
 		}
 	} while (tryb != 5);

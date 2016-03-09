@@ -83,9 +83,6 @@ void delete1(int liczba) {
 	element *p;
 	p = begin1;
 
-	if (p == NULL) {
-		cout << "Nie ma takiej liczby" << endl;
-	}
 	while (p != NULL) {
 		if (p->number == liczba) {
 			if (p->next != NULL)
@@ -103,11 +100,16 @@ void delete1(int liczba) {
 			if (end1 == p)
 				end1 = p->previous;
 			free(p);
+			cout << "Usunieto!" << endl;
 			break;
 
 		}
 		else {
 			p = p->next;
+			if (p == NULL) {
+				cout << "Nie ma takiej liczby" << endl;
+				break;
+			}
 		}
 	}
 }
@@ -123,16 +125,13 @@ int main() {
 		if (tryb == 1) {
 			cout << "WprowadŸ liczbe: ";
 			cin >> liczba;
-
 			insert1(liczba);
-
 			cout << "Dodano!" << endl;
 		}
 		else if (tryb == 2) {
 			cout << "WprowadŸ liczbe: ";
 			cin >> liczba;
 			delete1(liczba);
-			cout << "Usunieto!" << endl;
 		}
 		else if (tryb == 3) {
 			element *p = begin1;			while (p != NULL) {				printf("%d\n", p->number);				p = p->next;			}

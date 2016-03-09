@@ -44,20 +44,23 @@ struct element *insert1(int obj, struct element *ptr = begin1)
 					p->next = insert1(obj, p);
 				else
 				{
-					
-					p->previous = (struct element *)
-						malloc(sizeof(struct element));
+					element *poprzednik;
+					poprzednik = p->previous;
+
+					p->previous = (struct element *)malloc(sizeof(struct element));
 					
 					p = p->previous;
 					
 					p->number = obj;
 					p->next = ptr->next;
-					p->previous = ptr; ///bla nie daje wskaznika
+				//	p->previous = ptr; ///bla nie daje wskaznika
+					p->previous = poprzednik;
+
 
 					p->next->previous = p;
 					p->previous->next = p;
 
-					if (p->previous = NULL)
+					if (p->previous == NULL)
 						begin1 = p;
 
 				}
